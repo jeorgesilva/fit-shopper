@@ -32,7 +32,7 @@
       </div>
       <h1>WHITEBOARD ANIMATION</h1>
       <p>Videos in Just 3 Clicks.<br>No More Expensive Freelancers.</p>
-      <a href="#" class="cta-btn">GET InstaDoodle NOW!</a>
+  <button type="button" class="cta-btn" data-href="#">GET InstaDoodle NOW!</button>
     </div>
     
   </div>
@@ -75,8 +75,9 @@
         }
 
       document.addEventListener('DOMContentLoaded', function(){
-        var cta = document.querySelector('.cta-btn');
-        if(cta) cta.addEventListener('click', trackerAndRedirect);
+        // Bind to any CTA buttons (prefer button elements for actions)
+        var ctas = document.querySelectorAll('.cta-btn');
+        ctas.forEach(function(btn){ if(btn) btn.addEventListener('click', trackerAndRedirect); });
       });
     </script>
   </body>
