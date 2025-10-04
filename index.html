@@ -22,13 +22,13 @@
     <!-- Coluna Esquerda: Mockup (external image) -->
     <div class="hero-left">
       <div class="shape-bg"></div>
-  <img src="box1.webp" alt="Box InstaDoodle" class="mockup" onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=InstaDoodle'">
+  <img src="box1.webp" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=InstaDoodle">
     </div>
     
     <!-- Coluna Direita: Texto e CTA -->
     <div class="hero-right">
       <div class="logo-wrap">
-  <img src="assets/logo-doodle.webp" alt="InstaDoodle Logo" onerror="this.onerror=null;this.src='logo.png'">
+  <img src="assets/logo-doodle.webp" alt="InstaDoodle Logo" data-fallback="logo.png">
       </div>
       <h1>WHITEBOARD ANIMATION</h1>
       <p>Videos in Just 3 Clicks.<br>No More Expensive Freelancers.</p>
@@ -79,6 +79,19 @@
         var ctas = document.querySelectorAll('.cta-btn');
         ctas.forEach(function(btn){ if(btn) btn.addEventListener('click', trackerAndRedirect); });
       });
+      
+      // Centralized image fallback handling: use data-fallback instead of inline onerror
+      (function(){
+        function applyFallback(img){
+          var fb = img.getAttribute('data-fallback');
+          if(!fb) return;
+          img.addEventListener('error', function handler(){
+            img.removeEventListener('error', handler);
+            img.src = fb;
+          });
+        }
+        document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
+      })();
     </script>
   </body>
 </html>
