@@ -42,7 +42,9 @@
     <script>
         function trackerAndRedirect(e){
           if(e && e.preventDefault) e.preventDefault();
-          var url = e.currentTarget.getAttribute('href') || '#';
+          // Prefer data-href for programmatic redirects (safer); fall back to href
+          var el = e && e.currentTarget ? e.currentTarget : this;
+          var url = (el && el.getAttribute && (el.getAttribute('data-href') || el.getAttribute('href'))) || '#';
 
           // Try to send a beacon to a lightweight affiliate endpoint if available
           try {
