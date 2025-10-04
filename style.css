@@ -198,25 +198,42 @@ body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
   .instadoodle-hero .hero-content { flex: 0 0 40%; display:flex; flex-direction:column; justify-content:center; padding-left:48px; }
 }
 
-/* Desktop layout: visual left + content right */
-@media(min-width:900px){
-  .instadoodle-hero{flex-direction:row;align-items:stretch;padding:48px 18px}
-  .hero-visuals{flex:0 0 55%;display:flex;align-items:center;justify-content:center}
-  .hero-visuals .box1{left:25%;transform:translate(-50%,-50%);} /* nudge for desktop center-left */
-  .hero-content{flex:0 0 45%;display:flex;flex-direction:column;justify-content:center;text-align:left;padding-left:36px}
-  .headline{font-size:4.2rem}
-  .logo{margin:0 0 18px}
-  .insta-box{width:320px;right:8%;bottom:10%;transform:translateX(6%) rotate(-6deg)}
-}
-
-/* Ensure the generic .hero layout also forces two columns on desktop */
+/* Consolidated desktop layout: visual left + content right (authoritative) */
 @media (min-width:900px) {
-  .hero-content { flex-direction: row; align-items: center; }
-  .hero-left { flex: 0 0 55%; display:flex; align-items:center; justify-content:center; }
-  /* ensure the left column aligns its image to the left area */
-  .hero-left { justify-content:flex-start; padding-left:12px; }
-  .hero-right { flex: 0 0 45%; display:flex; flex-direction:column; justify-content:center; text-align:left; padding-left:36px; }
-  .mockup { max-width:100%; height:auto; }
+  /* Section layout */
+  .instadoodle-hero, .hero { height: auto; min-height: calc(100vh - var(--header-height,0px) - var(--footer-height,0px)); }
+
+  /* Force side-by-side hero content */
+  .instadoodle-hero .hero-content,
+  .hero .hero-content {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 36px;
+  }
+
+  /* Columns: 55% visuals (left) / 45% content (right) */
+  .instadoodle-hero .hero-left,
+  .hero .hero-left { flex: 0 0 55%; max-width: 55%; display:flex; align-items:center; justify-content:flex-end; padding-right:40px; }
+
+  .instadoodle-hero .hero-right,
+  .hero .hero-right { flex: 0 0 45%; max-width:45%; display:flex; flex-direction:column; justify-content:center; align-items:center; padding-left:40px; text-align:center; }
+
+  /* Mockup sizing: responsive, constrained so it cannot force wrap */
+  .instadoodle-hero .mockup,
+  .hero .mockup,
+  .mockup { width: 100%; max-width: 780px; height: auto; display:block; }
+
+  /* Blob stays behind and scales */
+  .shape-bg { width: 520px; height: 520px; left: -120px; top: -90px; filter: blur(12px); opacity: 0.97; z-index: -4; }
+
+  /* Typography scaling */
+  .hero-right h1, .hero-right .headline { font-size: 4.6rem; line-height:1.02; }
+  .hero-right p { font-size: 1.4rem; }
 }
 
 /* small utilities */
@@ -358,19 +375,27 @@ footer{height:40px}
   .mockup { width: 100%; max-width: 780px; }
 }
 
-/* --- Authoritative fallback: force side-by-side on desktop and prevent stacking --- */
-@media (min-width:900px) {
-  .instadoodle-hero .hero-content, .hero .hero-content {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-  }
-  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 55% !important; max-width: 55% !important; }
-  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 45% !important; max-width: 45% !important; }
-  /* ensure the left image doesn't force the column to stack by respecting max-width */
-  .instadoodle-hero .mockup, .hero .mockup { width: 100% !important; max-width: 780px !important; }
-}
+/* --- End consolidated authoritative hero block --- */
 
 /* --- End authoritative hero block --- */
+
+/* --- APPEND: Mockup zoom 2x for desktop (authoritative) --- */
+@media (min-width:900px) {
+  /* Allow the left column to display an enlarged visual without forcing layout wrap */
+  .instadoodle-hero .hero-left, .hero .hero-left { overflow: visible !important; }
+
+  /* Visually scale the mockup while keeping layout footprint predictable. */
+  .instadoodle-hero .mockup, .hero .mockup {
+    transform-origin: left center !important;
+    transform: scale(2) !important;
+    transition: transform 250ms ease !important;
+    /* Keep layout width limited so it doesn't push the column width — visual scaling handles size */
+    width: 50% !important;
+    max-width: 780px !important;
+  }
+
+  /* Slight left nudge so the enlarged image aligns with decorative blob */
+  .instadoodle-hero .hero-left .mockup, .hero .hero-left .mockup { margin-left: -12% !important; }
+}
+
+/* --- end mockup zoom append --- */
