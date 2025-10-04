@@ -74,45 +74,9 @@ body {
   padding: 10px 20px;
   display: inline-block;
   margin-bottom: 20px;
-  max-width: 200px;
-}
 
-.hero-right h1 {
-  font-size: 3.2rem; /* bigger headline */
-  font-weight: 900;
-  margin-bottom: 26px;
-  line-height: 1.02;
-}
-
-.hero-right p {
-  font-size: 1.25rem;
-  margin-bottom: 32px;
-  line-height: 1.5;
-}
-
-.cta-btn {
-  display: inline-block;
-  padding: 15px 40px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: #fff;
-  background: linear-gradient(90deg, #ff5fa2, #5fc9ff);
-  border-radius: 5px;
-  transition: transform 0.2s ease;
-}
-
-.cta-btn:hover {
-  transform: scale(1.05);
-}
-
-/* style.css - InstaDoodle landing (mobile-first) */
-:root{
-  --bg:#000;
-  --text:#fff;
-  --accent-start:#e91e63; /* pink/magenta */
-  --accent-end:#9c27b0;   /* purple */
-  --max-width:1200px;
+  --col-right: 35%;               /* right column share */
+  --blob-size: 220px;             /* decorative blob size */
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial}
@@ -128,16 +92,16 @@ body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 
 /* New box1 image - center it inside the left half of the hero */
 .hero-visuals .box1{
-  position:absolute;
-  left:12%; /* place within the left half area */
-  top:50%;
-  transform:translate(-50%,-50%);
-  width: 600px;
-  max-width: 100%;
-  height:auto;
-  z-index:3;
-  border-radius:8px;
-  box-shadow:0 18px 40px rgba(0,0,0,0.55);
+    position:absolute;
+    left:12%; /* place within the left half area */
+    top:50%;
+    transform:translate(-50%,-50%);
+    width: min(80%, var(--mockup-max));
+    max-width: 100%;
+    height:auto;
+    z-index:3;
+    border-radius:8px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.55);
 }
 
 .hero-content{width:100%;padding:6px 4px;z-index:3}
@@ -254,19 +218,7 @@ footer{height:40px}
   justify-content: center;
 }
 
-.hero-content { display:flex; align-items:center; justify-content:space-between; max-width:1200px; width:100%; }
-
-.hero-left { position:relative; flex:1; }
-.shape-bg { position:absolute; width:350px; height:350px; background: linear-gradient(135deg,#a64ce5,#ff5fa2); border-radius:50% 40% 60% 50% / 50% 60% 40% 50%; top:-50px; left:-50px; z-index:0 }
-.mockup { width:300px; position:relative; z-index:2 }
-.box { width:180px; position:absolute; left:200px; top:50px; z-index:3 }
-
-.hero-right { flex:1; padding-left:50px }
-.logo-wrap img { background:#fff; border-radius:40px; padding:10px 20px; display:inline-block; margin-bottom:20px; max-width:200px }
-.cta-btn { display:inline-block; padding:15px 40px; font-weight:bold; font-size:1.1rem; text-decoration:none; color:#fff; background:linear-gradient(90deg,#ff5fa2,#5fc9ff); border-radius:5px; transition:transform .2s ease }
-.cta-btn:hover{ transform:scale(1.05) }
-
-@media (max-width:900px){ .hero-content{ flex-direction:column } .hero-left,.hero-right{ width:100%; padding:10px 0 } .shape-bg{ display:none } .mockup{ width:220px; margin:0 auto; display:block } .box{ position:relative; left:auto; top:-30px; margin:0 auto; display:block } .hero-right{ padding-left:0; text-align:center } }
+/* (previous merged preview/template CSS removed to reduce duplication) */
 
 /* alias: ensure cta-button still works */
 /* .cta-button kept intentionally to mirror possible markup (styles already exist under .cta-button/.cta-btn) */
@@ -379,53 +331,7 @@ footer{height:40px}
 
 /* --- End authoritative hero block --- */
 
-/* --- APPEND: Mockup zoom 2x for desktop (authoritative) --- */
-@media (min-width:900px) {
-  /* Allow the left column to display an enlarged visual without forcing layout wrap */
-  .instadoodle-hero .hero-left, .hero .hero-left { overflow: visible !important; }
-
-  /* Remove the visual scale; instead allocate real layout space to the left column so the mockup appears larger.
-     This mimics the example screenshot where the box and tablet occupy the left area physically. */
-  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 65% !important; max-width: 65% !important; padding-right: 60px !important; }
-  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 35% !important; max-width: 35% !important; padding-left: 40px !important; }
-
-  /* Make the mockup occupy more of the left column and remove transform scaling. */
-  .instadoodle-hero .mockup, .hero .mockup {
-    transform: none !important;
-    transform-origin: center center !important;
-    width: 100% !important;
-    max-width: 900px !important;
-    margin: 0 !important;
-  }
-}
-
-/* --- end mockup zoom append --- */
-
-/* --- FINAL OVERRIDE: enforce real-layout enlargement and cancel visual scale --- */
-@media (min-width:900px) {
-  /* Cancel any previous visual scaling that used transform */
-  .instadoodle-hero .mockup, .hero .mockup { transform: none !important; transform-origin: center center !important; }
-
-  /* Enforce left column uses 65% of the width and right column 35% */
-  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 65% !important; max-width: 65% !important; padding-right: 60px !important; }
-  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 35% !important; max-width: 35% !important; padding-left: 40px !important; }
-
-  /* Increase the mockup allowed max-width so it physically occupies more space */
-  .instadoodle-hero .mockup, .hero .mockup { width: 100% !important; max-width: 900px !important; }
-}
-
-/* --- end final override --- */
-
-/* --- Position tweak: nudge mockup/box1 to left edge on desktop --- */
-@media (min-width:900px) {
-  /* Make left column align content to the very left and reduce left padding */
-  .instadoodle-hero .hero-left, .hero .hero-left { justify-content: flex-start !important; padding-left: 12px !important; }
-
-  /* Move the mockup visually closer to the left page edge. Adjust value if needed. */
-  .instadoodle-hero .mockup, .hero .mockup, .box1 { margin-left: -120px !important; }
-}
-
-/* --- end position tweak --- */
+ 
 
 /* --- CONSOLIDATED AUTHORITATIVE DESKTOP RULES (final) --- */
 @media (min-width:900px) {
@@ -460,8 +366,8 @@ footer{height:40px}
 
   /* Mockup and box1: occupy left column, predictable sizing */
   .instadoodle-hero .mockup, .hero .mockup, .mockup, .hero-visuals .box1 {
-    width: 100% !important;
-    max-width: 900px !important;
+      width: 100% !important;
+      max-width: var(--mockup-max) !important;
     height: auto !important;
     margin: 0 !important;
     transform: none !important;
@@ -469,19 +375,19 @@ footer{height:40px}
   }
 
   /* Keep the left-edge nudge authoritative */
-  .instadoodle-hero .mockup, .hero .mockup, .box1 { margin-left: -120px !important; }
+  .instadoodle-hero .mockup, .hero .mockup, .box1 { margin-left: var(--mockup-left-nudge) !important; }
 
   /* Blob (shape-bg) authoritative positioning */
-  .shape-bg {
-    width: 220px !important;
-    height: 220px !important;
-    top: -30px !important;
-    left: -60px !important;
-    filter: blur(8px) !important;
-    opacity: 0.95 !important;
-    z-index: -4 !important;
-    pointer-events: none !important;
-  }
+    .shape-bg {
+      width: var(--blob-size) !important;
+      height: var(--blob-size) !important;
+      top: -30px !important;
+      left: -60px !important;
+      filter: blur(8px) !important;
+      opacity: 0.95 !important;
+      z-index: -4 !important;
+      pointer-events: none !important;
+    }
 
   /* CTA: unify both class names to avoid split styles */
   .cta-btn, .cta-button {
