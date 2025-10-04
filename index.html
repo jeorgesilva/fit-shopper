@@ -27,12 +27,12 @@
     
     <!-- Coluna Direita: Texto e CTA -->
     <div class="hero-right">
-      <div class="logo-wrap">
-  <img src="assets/logo-doodle.webp" alt="InstaDoodle Logo" data-fallback="logo.png">
-      </div>
-      <h1>WHITEBOARD ANIMATION</h1>
-      <p>Videos in Just 3 Clicks.<br>No More Expensive Freelancers.</p>
-          <button type="button" class="cta-btn" data-href="#">
+          <div class="logo-wrap">
+            <img src="assets/logo-doodle.webp" alt="InstaDoodle Logo" data-fallback="logo.png" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+          </div>
+          <h1 data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">WHITEBOARD ANIMATION</h1>
+          <p data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">Videos in Just 3 Clicks.<br>No More Expensive Freelancers.</p>
+          <button type="button" class="cta-btn" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
             GET InstaDoodle NOW!
           </button>
     </div>
@@ -77,9 +77,23 @@
         }
 
       document.addEventListener('DOMContentLoaded', function(){
-        // Bind to any CTA buttons (prefer button elements for actions)
-        var ctas = document.querySelectorAll('.cta-btn');
-        ctas.forEach(function(btn){ if(btn) btn.addEventListener('click', trackerAndRedirect); });
+        // Bind trackerAndRedirect to any element with data-href (clickable/logo/text/mockup)
+        var clickables = document.querySelectorAll('[data-href]');
+        clickables.forEach(function(el){
+          // mouse click
+          el.addEventListener('click', trackerAndRedirect);
+          // keyboard activation for non-button elements (Enter / Space)
+          el.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              trackerAndRedirect.call(el, e);
+            }
+          });
+          // make non-interactive elements focusable for keyboard users
+          if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+          // ensure pointer cursor
+          el.style.cursor = 'pointer';
+        });
       });
       
       // Centralized image fallback handling: use data-fallback instead of inline onerror
