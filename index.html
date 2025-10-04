@@ -22,7 +22,10 @@
     <!-- Coluna Esquerda: Mockup (external image) -->
     <div class="hero-left">
       <div class="shape-bg"></div>
-  <img src="box1.webp" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=InstaDoodle">
+      <div class="media-stage">
+        <img src="box1.webp" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=InstaDoodle" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+        <button class="play-overlay" aria-label="Play video" title="Play video"></button>
+      </div>
     </div>
     
     <!-- Coluna Direita: Texto e CTA -->
@@ -108,6 +111,42 @@
         }
         document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
       })();
+
+      // Video swap: click play -> fade out mockup, insert autoplay muted Vimeo iframe
+      (function(){
+        function initMediaStage(){
+          var stage = document.querySelector('.media-stage');
+          if(!stage) return;
+          var img = stage.querySelector('.mockup');
+          var play = stage.querySelector('.play-overlay');
+          var vimeoSrc = 'https://player.vimeo.com/video/965207353?autoplay=1&muted=1&playsinline=1';
+
+          play.addEventListener('click', function(ev){
+            ev.stopPropagation();
+            ev.preventDefault();
+            // avoid triggering affiliate redirect if image had data-href
+            ev.target.closest('[data-href]') && ev.target.closest('[data-href]').removeAttribute('data-href');
+
+            // fade out image
+            img.classList.add('hidden');
+
+            // create iframe
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', vimeoSrc);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+            iframe.setAttribute('loading', 'lazy');
+            iframe.style.width = '100%';
+
+            // append and wait a tick to trigger transition
+            stage.appendChild(iframe);
+            requestAnimationFrame(function(){
+              iframe.classList.add('ready');
+            });
+          });
+        }
+        document.addEventListener('DOMContentLoaded', initMediaStage);
+      })();
     </script>
   </body>
 </html>
@@ -173,4 +212,20 @@
   }
   .cta-btn { margin: 0 auto; } /* keep CTA centered within its column */
 }
+
+/* Media stage: mockup -> video swap */
+.media-stage { position: relative; display: inline-block; width: 100%; max-width: var(--mockup-max, 780px); }
+.media-stage .mockup { display: block; width: 100%; height: auto; transition: opacity 450ms ease; }
+.media-stage .mockup.hidden { opacity: 0; pointer-events: none; }
+.media-stage iframe { display: block; width: 100%; height: auto; opacity: 0; transition: opacity 450ms ease; }
+.media-stage iframe.ready { opacity: 1; }
+.play-overlay {
+  position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 88px; height: 88px; border-radius: 50%;
+  background: rgba(0,0,0,0.55) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><polygon points="18,12 54,32 18,52" fill="%23fff"/></svg>') center/40% no-repeat;
+  border: none; cursor: pointer; z-index: 4;
+}
+.play-overlay:focus { outline: 3px solid rgba(156,39,176,0.22); }
+
 </style>
