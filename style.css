@@ -35,13 +35,14 @@ body {
 
 .shape-bg {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
   background: linear-gradient(135deg, #a64ce5, #ff5fa2);
   border-radius: 50% 40% 60% 50% / 50% 60% 40% 50%;
-  top: -30px;
-  left: -30px;
-  z-index: -1; /* send behind content */
+  top: -20px;
+  left: -20px;
+  z-index: -2; /* send further behind content */
+  pointer-events: none; /* ensure it doesn't block clicks */
 }
 
 .mockup {
@@ -156,6 +157,8 @@ body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 @media (min-width:900px) {
   .hero-content { flex-direction: row; align-items: center; }
   .hero-left { flex: 0 0 55%; display:flex; align-items:center; justify-content:center; }
+  /* ensure the left column aligns its image to the left area */
+  .hero-left { justify-content:flex-start; padding-left:12px; }
   .hero-right { flex: 0 0 45%; display:flex; flex-direction:column; justify-content:center; text-align:left; padding-left:36px; }
   .mockup { max-width:100%; height:auto; }
 }
