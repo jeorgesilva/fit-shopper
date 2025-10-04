@@ -152,6 +152,11 @@ body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 /* Mobile-first: stack, centered */
 .instadoodle-hero { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px 12px; }
 
+/* Ensure the hero fills the viewport and inner content stretches to center vertically */
+.instadoodle-hero { min-height: 100vh; height: 100vh; padding: 0; }
+.instadoodle-hero .hero-content { height: 100%; display: flex; flex-direction: row; align-items: center; justify-content: center; }
+.instadoodle-hero .hero-right { display:flex; flex-direction:column; justify-content:center; }
+
 /* CTA button style (explicit) */
 .cta-button {
   background: linear-gradient(90deg, #E91E63, #9C27B0); /* pink -> purple */
