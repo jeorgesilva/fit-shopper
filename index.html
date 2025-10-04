@@ -1,25 +1,22 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <!doctype html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>InstaDoodle - Whiteboard Animation</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11423608709"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'AW-11423608709');
-    </script>
-  </head>
-  <body>
-    <main class="container">
-<section class="hero">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>InstaDoodle - Whiteboard Animation</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11423608709"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'AW-11423608709');
+  </script>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
   <div class="hero-content">
     
     <!-- Coluna Esquerda: Mockup (external image) -->
@@ -54,10 +51,9 @@
       }
 
       document.addEventListener('DOMContentLoaded', function(){
-        var cta = document.getElementById('main-cta');
+        var cta = document.querySelector('.cta-btn');
         if(cta) cta.addEventListener('click', trackerAndRedirect);
       });
     </script>
   </body>
-  </html>
-        <section class="instadoodle-hero">
+</html>
