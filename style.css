@@ -384,18 +384,19 @@ footer{height:40px}
   /* Allow the left column to display an enlarged visual without forcing layout wrap */
   .instadoodle-hero .hero-left, .hero .hero-left { overflow: visible !important; }
 
-  /* Visually scale the mockup while keeping layout footprint predictable. */
-  .instadoodle-hero .mockup, .hero .mockup {
-    transform-origin: left center !important;
-    transform: scale(2) !important;
-    transition: transform 250ms ease !important;
-    /* Keep layout width limited so it doesn't push the column width — visual scaling handles size */
-    width: 50% !important;
-    max-width: 780px !important;
-  }
+  /* Remove the visual scale; instead allocate real layout space to the left column so the mockup appears larger.
+     This mimics the example screenshot where the box and tablet occupy the left area physically. */
+  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 65% !important; max-width: 65% !important; padding-right: 60px !important; }
+  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 35% !important; max-width: 35% !important; padding-left: 40px !important; }
 
-  /* Slight left nudge so the enlarged image aligns with decorative blob */
-  .instadoodle-hero .hero-left .mockup, .hero .hero-left .mockup { margin-left: -12% !important; }
+  /* Make the mockup occupy more of the left column and remove transform scaling. */
+  .instadoodle-hero .mockup, .hero .mockup {
+    transform: none !important;
+    transform-origin: center center !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 !important;
+  }
 }
 
 /* --- end mockup zoom append --- */
