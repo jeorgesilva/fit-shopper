@@ -400,3 +400,18 @@ footer{height:40px}
 }
 
 /* --- end mockup zoom append --- */
+
+/* --- FINAL OVERRIDE: enforce real-layout enlargement and cancel visual scale --- */
+@media (min-width:900px) {
+  /* Cancel any previous visual scaling that used transform */
+  .instadoodle-hero .mockup, .hero .mockup { transform: none !important; transform-origin: center center !important; }
+
+  /* Enforce left column uses 65% of the width and right column 35% */
+  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 65% !important; max-width: 65% !important; padding-right: 60px !important; }
+  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 35% !important; max-width: 35% !important; padding-left: 40px !important; }
+
+  /* Increase the mockup allowed max-width so it physically occupies more space */
+  .instadoodle-hero .mockup, .hero .mockup { width: 100% !important; max-width: 900px !important; }
+}
+
+/* --- end final override --- */
