@@ -346,4 +346,16 @@ footer{height:40px}
   .hero-right { text-align: center; }
 }
 
+/* --- Authoritative: hero visuals and mockup responsive sizing --- */
+.hero-visuals { width:100%; display:flex; align-items:center; justify-content:center; position:relative; }
+.mockup, .mockup-imagem { max-width:100%; height:auto; display:block; }
+
+@media (min-width:900px) {
+  /* Visual container occupies 55% on desktop; content 45% (as recommended) */
+  .hero-visuals { flex: 0 0 55%; justify-content: flex-end; padding-right: 40px; }
+  .instadoodle-hero .hero-visuals { flex: 0 0 55%; justify-content: flex-end; padding-right: 40px; }
+  /* Allow the mockup to scale up to a recommended max (600-800px); use 780px as upper bound */
+  .mockup { width: 100%; max-width: 780px; }
+}
+
 /* --- End authoritative hero block --- */
