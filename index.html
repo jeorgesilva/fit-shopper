@@ -97,3 +97,36 @@
     </script>
   </body>
 </html>
+
+<style>
+/* Remove contorno/borda e sombra da imagem box1 / mockup */
+.hero-left .mockup,
+.hero-visuals .box1,
+.box1 {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+:root {
+  --cta-start: #E91E63; /* rosa */
+  --cta-end:   #9C27B0; /* roxo */
+}
+
+.cta-btn {
+  background: linear-gradient(90deg, var(--cta-start), var(--cta-end));
+  color: #fff;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(233,30,99,0.18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.cta-btn:hover { transform: translateY(-2px); filter: saturate(1.05); }
+.cta-btn:active { transform: translateY(1px); box-shadow: 0 6px 14px rgba(0,0,0,0.28); }
+.cta-btn:focus-visible {
+  outline: 3px solid rgba(156,39,176,0.22);
+  outline-offset: 4px;
+}
+</style>
