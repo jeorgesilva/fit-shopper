@@ -167,9 +167,10 @@
 
 @media (min-width: 900px) {
   .hero-right {
-    align-items: flex-start;
-    text-align: left;
+    /* keep items centered in the right column on desktop as requested */
+    align-items: center;
+    text-align: center;
   }
-  .cta-btn { margin: 0; } /* volta o botão ao fluxo normal alinhado à esquerda */
+  .cta-btn { margin: 0 auto; } /* keep CTA centered within its column */
 }
 </style>
