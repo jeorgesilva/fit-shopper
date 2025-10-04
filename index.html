@@ -75,45 +75,6 @@
       document.addEventListener('DOMContentLoaded', function(){
         var cta = document.querySelector('.cta-btn');
         if(cta) cta.addEventListener('click', trackerAndRedirect);
-        // Enforce side-by-side layout on desktop as a fallback (applied via JS)
-        function applyDesktopLayout(){
-          var heroContent = document.querySelector('.hero-content');
-          var heroLeft = document.querySelector('.hero-left');
-          var heroRight = document.querySelector('.hero-right');
-          if(!heroContent || !heroLeft || !heroRight) return;
-          if(window.innerWidth >= 900){
-            heroContent.style.display = 'flex';
-            heroContent.style.flexDirection = 'row';
-            heroContent.style.flexWrap = 'nowrap';
-            heroLeft.style.flex = '0 0 55%';
-            heroLeft.style.maxWidth = '55%';
-            heroRight.style.flex = '0 0 45%';
-            heroRight.style.maxWidth = '45%';
-            heroLeft.style.display = 'flex';
-            heroLeft.style.alignItems = 'center';
-            heroRight.style.display = 'flex';
-            heroRight.style.flexDirection = 'column';
-            heroRight.style.justifyContent = 'center';
-            heroRight.style.textAlign = 'center';
-          } else {
-            // remove inline styles so mobile stack works naturally
-            heroContent.style.display = '';
-            heroContent.style.flexDirection = '';
-            heroContent.style.flexWrap = '';
-            heroLeft.style.flex = '';
-            heroLeft.style.maxWidth = '';
-            heroRight.style.flex = '';
-            heroRight.style.maxWidth = '';
-            heroLeft.style.display = '';
-            heroLeft.style.alignItems = '';
-            heroRight.style.display = '';
-            heroRight.style.flexDirection = '';
-            heroRight.style.justifyContent = '';
-            heroRight.style.textAlign = '';
-          }
-        }
-        applyDesktopLayout();
-        window.addEventListener('resize', function(){ applyDesktopLayout(); });
       });
     </script>
   </body>
