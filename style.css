@@ -314,12 +314,14 @@ footer{height:40px}
 }
 
 @media (min-width:900px) {
-  .mockup { width: 380px; margin: 0; }
+  .mockup { width: 570px; margin: 0; }
   /* nudge mockup so it sits a bit lower and centers visually with the blob */
   .hero-left { align-items: center; }
   .hero-left .mockup { transform: translateY(6%); }
   /* further ensure blob is fully behind */
   .shape-bg { z-index: -4; }
+  /* center the right-column text on desktop as requested */
+  .hero-right { text-align: center; }
 }
 
 /* --- End authoritative hero block --- */
