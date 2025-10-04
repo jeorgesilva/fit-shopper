@@ -415,3 +415,14 @@ footer{height:40px}
 }
 
 /* --- end final override --- */
+
+/* --- Position tweak: nudge mockup/box1 to left edge on desktop --- */
+@media (min-width:900px) {
+  /* Make left column align content to the very left and reduce left padding */
+  .instadoodle-hero .hero-left, .hero .hero-left { justify-content: flex-start !important; padding-left: 12px !important; }
+
+  /* Move the mockup visually closer to the left page edge. Adjust value if needed. */
+  .instadoodle-hero .mockup, .hero .mockup, .box1 { margin-left: -90px !important; }
+}
+
+/* --- end position tweak --- */
