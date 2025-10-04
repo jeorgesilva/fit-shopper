@@ -358,4 +358,19 @@ footer{height:40px}
   .mockup { width: 100%; max-width: 780px; }
 }
 
+/* --- Authoritative fallback: force side-by-side on desktop and prevent stacking --- */
+@media (min-width:900px) {
+  .instadoodle-hero .hero-content, .hero .hero-content {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .instadoodle-hero .hero-left, .hero .hero-left { flex: 0 0 55% !important; max-width: 55% !important; }
+  .instadoodle-hero .hero-right, .hero .hero-right { flex: 0 0 45% !important; max-width: 45% !important; }
+  /* ensure the left image doesn't force the column to stack by respecting max-width */
+  .instadoodle-hero .mockup, .hero .mockup { width: 100% !important; max-width: 780px !important; }
+}
+
 /* --- End authoritative hero block --- */
