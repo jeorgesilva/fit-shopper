@@ -35,7 +35,7 @@
           </div>
           <h1 data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">VIDEOS IN 3 CLICKS</h1>
           <p data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">AI Text To Video .<br>No More Expensive Freelancers.</p>
-          <button type="button" class="cta-btn" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+          <button type="button" class="cta-btn pulse" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
             GET InstaDoodle NOW!
           </button>
     </div>
@@ -204,6 +204,29 @@
   margin: 0 auto;        /* centraliza horizontalmente */
 }
 
+/* Pulse animation for CTA button (subtle, accessible) */
+@keyframes cta-pulse {
+  0% { transform: translateY(0) scale(1); box-shadow: 0 10px 24px rgba(233,30,99,0.18); }
+  50% { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 36px rgba(233,30,99,0.22); }
+  100% { transform: translateY(0) scale(1); box-shadow: 0 10px 24px rgba(233,30,99,0.18); }
+}
+
+.cta-btn.pulse {
+  animation: cta-pulse 2.2s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+
+/* Pause pulse on hover or focus so it doesn't distract while interacting */
+.cta-btn.pulse:hover,
+.cta-btn.pulse:focus {
+  animation-play-state: paused;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cta-btn.pulse { animation: none; }
+}
+
 @media (min-width: 900px) {
   .hero-right {
     /* keep items centered in the right column on desktop as requested */
@@ -229,4 +252,6 @@
 }
 .play-overlay:focus { outline: 3px solid rgba(156,39,176,0.22); }
 
-</style>
+@media (max-width: 600px) {
+  .play-overlay { width: 60px; height: 60px; background-size: 28% !important; }
+}
