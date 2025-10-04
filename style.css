@@ -14,7 +14,7 @@ body {
 /* Seção principal */
 .hero {
   width: 100%;
-  padding: 80px 5%;
+  padding: 120px 4%; /* increase vertical space */
   display: flex;
   justify-content: center;
 }
@@ -23,7 +23,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: 1400px; /* wider hero */
   width: 100%;
 }
 
@@ -34,35 +34,38 @@ body {
 }
 
 .shape-bg {
-  position: absolute;
-  width: 260px;
-  height: 260px;
+  position:absolute;
+  width:380px; /* larger decorative blob */
+  height:380px;
   background: linear-gradient(135deg, #a64ce5, #ff5fa2);
   border-radius: 50% 40% 60% 50% / 50% 60% 40% 50%;
-  top: -20px;
-  left: -20px;
+  top: -60px; /* moved further up */
+  left: -80px; /* moved further left */
   z-index: -2; /* send further behind content */
   pointer-events: none; /* ensure it doesn't block clicks */
+  filter: blur(10px);
+  opacity: 0.98;
 }
 
 .mockup {
-  width: 300px;
+  width: 360px; /* larger mockup */
   position: relative;
   z-index: 2;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
 }
 
 .box {
-  width: 180px;
+  width: 220px;
   position: absolute;
-  left: 200px;
-  top: 50px;
-  z-index: 3;
+  left: 220px;
+  top: 70px;
+  z-index: 4;
 }
 
 /* Coluna direita */
 .hero-right {
   flex: 1;
-  padding-left: 50px;
+  padding-left: 80px; /* more breathing room */
 }
 
 .logo-wrap img {
@@ -75,14 +78,15 @@ body {
 }
 
 .hero-right h1 {
-  font-size: 2.5rem;
+  font-size: 3.2rem; /* bigger headline */
   font-weight: 900;
-  margin-bottom: 20px;
+  margin-bottom: 26px;
+  line-height: 1.02;
 }
 
 .hero-right p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  font-size: 1.25rem;
+  margin-bottom: 32px;
   line-height: 1.5;
 }
 
@@ -236,6 +240,17 @@ footer{height:40px}
 
 /* ensure the background blob is behind and not overlapping */
 .shape-bg { z-index: -3; pointer-events:none }
+
+/* Enlarge hero components in the authoritative block as well */
+@media (min-width:900px) {
+  .hero-content { max-width: 1500px; padding: 36px; }
+  .hero-left { flex: 0 0 60%; padding-right: 80px; }
+  .hero-right { flex: 0 0 40%; padding-left: 80px; }
+  .mockup { width: 520px; }
+  .hero-right h1 { font-size: 4.6rem; }
+  .hero-right p { font-size: 1.4rem; }
+  .shape-bg { width: 520px; height: 520px; left: -120px; top: -90px; filter: blur(12px); opacity: 0.97 }
+}
 
 /* --- Blob & mockup refinements --- */
 /* Reduce the decorative blob size and nudge it further left/top so it doesn't intrude on text */
