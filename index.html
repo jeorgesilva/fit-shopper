@@ -40,15 +40,37 @@
     </main>
 
     <script>
-      function trackerAndRedirect(e){
-        if(e && e.preventDefault) e.preventDefault();
-        var url = e.currentTarget.getAttribute('href');
-        // Fire conversion event with custom name 'click_afiliado'
-        try{ gtag('event', 'click_afiliado', { 'send_to': 'AW-11423608709' }); } catch(err){}
-        // small delay then redirect
-        setTimeout(function(){ window.location = url; }, 250);
-        return false;
-      }
+        function trackerAndRedirect(e){
+          if(e && e.preventDefault) e.preventDefault();
+          var url = e.currentTarget.getAttribute('href') || '#';
+
+          // Try to send a beacon to a lightweight affiliate endpoint if available
+          try {
+            var beaconUrl = 'https://www.googletagmanager.com/collect?v=1&tid=AW-11423608709&cid=client_id&t=event&ec=affiliate&ea=click_afiliado';
+            if (navigator.sendBeacon) {
+              try { navigator.sendBeacon(beaconUrl); } catch(beaconErr) { /* ignore */ }
+            }
+          } catch(err) { /* ignore */ }
+
+          // Use gtag with event_callback to reliably redirect after analytics fires
+          var redirected = false;
+          var doRedirect = function(){ if(!redirected){ redirected = true; window.location = url; } };
+
+          try {
+            gtag('event', 'click_afiliado', {
+              'send_to': 'AW-11423608709',
+              'event_callback': doRedirect
+            });
+          } catch(err) {
+            // If gtag fails, still redirect after a short delay
+            setTimeout(doRedirect, 300);
+          }
+
+          // Safety fallback: ensure we always redirect after 1200ms
+          setTimeout(doRedirect, 1200);
+
+          return false;
+        }
 
       document.addEventListener('DOMContentLoaded', function(){
         var cta = document.querySelector('.cta-btn');

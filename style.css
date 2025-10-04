@@ -237,4 +237,33 @@ footer{height:40px}
 /* ensure the background blob is behind and not overlapping */
 .shape-bg { z-index: -3; pointer-events:none }
 
+/* --- Blob & mockup refinements --- */
+/* Reduce the decorative blob size and nudge it further left/top so it doesn't intrude on text */
+.shape-bg {
+  width: 220px; /* smaller */
+  height: 220px;
+  top: -30px;
+  left: -60px; /* move more left */
+  filter: blur(8px);
+  opacity: 0.95;
+}
+
+/* Make the mockup slightly larger on desktop and vertically centered within left column */
+.mockup {
+  width: 340px;
+  max-width: 92%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (min-width:900px) {
+  .mockup { width: 380px; margin: 0; }
+  /* nudge mockup so it sits a bit lower and centers visually with the blob */
+  .hero-left { align-items: center; }
+  .hero-left .mockup { transform: translateY(6%); }
+  /* further ensure blob is fully behind */
+  .shape-bg { z-index: -4; }
+}
+
 /* --- End authoritative hero block --- */
