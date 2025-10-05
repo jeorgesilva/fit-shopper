@@ -167,6 +167,17 @@ body {
   .media-stage { min-height: 180px; }
 }
 
+/* Mobile fallback: if the inline <img> is not visible on some devices, show the mockup as a background
+   This ensures the hero still communicates visually on constrained phones. */
+@media (max-width: 480px) {
+  .media-stage {
+    background-image: url('box1.webp');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; /* show full image inside the reserved box */
+  }
+}
+
 /* Coluna direita (texto) */
 .hero-right {
   flex: 1;
