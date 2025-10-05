@@ -152,6 +152,21 @@
             // sizing is controlled by CSS (.media-stage) so we don't set inline width/height here
 
             // append and wait a tick to trigger transition
+            // Compute a pixel height fallback so mobile browsers can render the iframe
+            try {
+              var containerWidth = stage.clientWidth || stage.getBoundingClientRect().width || window.innerWidth;
+              var computedHeight = Math.round(containerWidth * 9 / 16);
+              iframe.style.height = computedHeight + 'px';
+              iframe.style.width = '100%';
+              // keep iframe responsive: update on resize
+              var resizeHandler = function(){
+                try{
+                  var w = stage.clientWidth || stage.getBoundingClientRect().width || window.innerWidth;
+                  iframe.style.height = Math.round(w * 9 / 16) + 'px';
+                } catch(e){}
+              };
+              window.addEventListener('resize', resizeHandler);
+            } catch(e){}
             stage.appendChild(iframe);
             console.debug('media: iframe appended');
             requestAnimationFrame(function(){
