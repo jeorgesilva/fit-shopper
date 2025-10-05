@@ -153,14 +153,17 @@
 
             // append and wait a tick to trigger transition
             stage.appendChild(iframe);
+            console.debug('media: iframe appended');
             requestAnimationFrame(function(){
               iframe.classList.add('ready');
+              console.debug('media: iframe class ready added');
             });
 
             // Fallback: if iframe didn't become ready within 1200ms, open the Vimeo page in a new tab
             var fallbackOpened = false;
             var fallbackTimer = setTimeout(function(){
               if(iframe.classList.contains('ready')) return;
+              console.debug('media: iframe not ready - opening fallback window');
               try { window.open(vimeoSrc, '_blank'); fallbackOpened = true; } catch(e){}
             }, 1200);
 

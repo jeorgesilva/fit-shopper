@@ -153,6 +153,8 @@ body {
 
 @media (max-width: 600px) {
   .play-overlay { width: 60px; height: 60px; background-size: 28% !important; }
+  /* Ensure the media stage reserves a visible area on small screens even if aspect calc fails */
+  .media-stage { min-height: 180px; }
 }
 
 /* Coluna direita (texto) */
