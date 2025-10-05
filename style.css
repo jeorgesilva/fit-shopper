@@ -105,6 +105,9 @@ body {
   height: 0;               /* required for the padding-top aspect ratio trick to work reliably on mobile */
   padding-top: 56.25%;     /* 16:9 box (padding-top provides height) */
   overflow: hidden;        /* clip children that fill the box */
+  /* When inside a flex container, ensure the media-stage doesn't flex or collapse on some mobile browsers */
+  flex: 0 0 auto;
+  align-self: center;
 }
 
 /* children fill the absolutely-positioned reserved box */
@@ -119,10 +122,13 @@ body {
   display: block;          /* ensures replaced elements behave consistently */
   object-fit: cover;       /* crop/scale to fill without distortion */
   border: 0;
+  /* stacking: make sure iframe/video appear above the mockup when injected */
+  z-index: 2;
 }
 
+.media-stage .mockup { z-index: 1; }
 .media-stage .mockup.hidden { opacity: 0; pointer-events: none; transition: opacity 360ms ease; }
-.media-stage iframe { opacity: 0; transition: opacity 360ms ease; }
+.media-stage iframe { opacity: 0; transition: opacity 360ms ease; z-index: 3; }
 .media-stage iframe.ready { opacity: 1; }
 
 /* Play overlay - centered circular button */

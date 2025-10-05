@@ -144,6 +144,9 @@
             iframe.setAttribute('src', vimeoSrc);
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+            iframe.setAttribute('allowfullscreen', '');
+            // iOS playsinline hint
+            iframe.setAttribute('playsinline', '');
             // don't lazy-load on mobile interaction: use eager
             iframe.setAttribute('loading', 'eager');
             // sizing is controlled by CSS (.media-stage) so we don't set inline width/height here
