@@ -111,8 +111,9 @@ body {
 }
 
 /* children fill the absolutely-positioned reserved box */
-.media-stage > .mockup,
-.media-stage > img,
+.media-stage picture { display: block; }
+.media-stage .mockup,
+.media-stage img,
 .media-stage iframe,
 .media-stage video {
   position: absolute;
