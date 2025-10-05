@@ -174,19 +174,27 @@
               console.debug('media: iframe class ready added');
             });
 
-            // Fallback: if iframe didn't become ready within 1200ms, open the Vimeo page in a new tab
-            var fallbackOpened = false;
+            // Fallback: create a visible link (user-initiated) that opens the Vimeo player in a new tab
+            var fallbackLink = document.createElement('a');
+            fallbackLink.setAttribute('href', vimeoSrc);
+            fallbackLink.setAttribute('target', '_blank');
+            fallbackLink.setAttribute('rel', 'noopener');
+            fallbackLink.className = 'media-fallback-link';
+            fallbackLink.textContent = 'Open video in new tab';
+            fallbackLink.style.display = 'none';
+            stage.appendChild(fallbackLink);
+
             var fallbackTimer = setTimeout(function(){
               if(iframe.classList.contains('ready')) return;
-              console.debug('media: iframe not ready - opening fallback window');
-              try { window.open(vimeoSrc, '_blank'); fallbackOpened = true; } catch(e){}
-            }, 1200);
+              console.debug('media: showing fallback link for user to open video');
+              try { fallbackLink.style.display = 'flex'; } catch(e){}
+            }, 700);
 
-            // when iframe becomes ready, cancel fallback
+            // when iframe becomes ready, cancel fallback and hide link
             var mo = new MutationObserver(function(){
               if(iframe.classList.contains('ready')){
                 clearTimeout(fallbackTimer);
-                try { mo.disconnect(); } catch(e){}
+                try { fallbackLink.style.display = 'none'; mo.disconnect(); } catch(e){}
               }
             });
             mo.observe(iframe, { attributes: true, attributeFilter: ['class'] });

@@ -132,6 +132,15 @@ body {
 .media-stage iframe { opacity: 0; transition: opacity 360ms ease; z-index: 3; }
 .media-stage iframe.ready { opacity: 1; }
 
+/* Visible fallback link/button shown when autoplay/iframe initialization is blocked on mobile */
+.media-fallback-link {
+  position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px 18px; background: rgba(0,0,0,0.72); color: #fff; border-radius: 10px; text-decoration: none;
+  z-index: 6; font-weight: 700; font-size: 0.95rem;
+}
+
 /* Debug helper: when ?debug=1 is present on the URL the outline helps visualize the reserved box */
 .media-debug .media-stage { outline: 2px dashed rgba(255,255,255,0.12); }
 
