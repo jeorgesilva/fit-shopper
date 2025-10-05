@@ -132,6 +132,9 @@ body {
 .media-stage iframe { opacity: 0; transition: opacity 360ms ease; z-index: 3; }
 .media-stage iframe.ready { opacity: 1; }
 
+/* Debug helper: when ?debug=1 is present on the URL the outline helps visualize the reserved box */
+.media-debug .media-stage { outline: 2px dashed rgba(255,255,255,0.12); }
+
 /* Play overlay - centered circular button */
 .play-overlay {
   position: absolute;

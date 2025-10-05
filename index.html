@@ -157,15 +157,32 @@
               iframe.classList.add('ready');
             });
 
-            // If autoplay is blocked, fallback: open Vimeo in new tab after short timeout
-            setTimeout(function(){
-              // if iframe didn't get visible (opacity), open direct link as user's click fallback
-              if(!iframe.classList.contains('ready')) return;
-              // nothing else to check cross-origin, but user can tap again to open if needed
-            }, 800);
+            // Fallback: if iframe didn't become ready within 1200ms, open the Vimeo page in a new tab
+            var fallbackOpened = false;
+            var fallbackTimer = setTimeout(function(){
+              if(iframe.classList.contains('ready')) return;
+              try { window.open(vimeoSrc, '_blank'); fallbackOpened = true; } catch(e){}
+            }, 1200);
+
+            // when iframe becomes ready, cancel fallback
+            var mo = new MutationObserver(function(){
+              if(iframe.classList.contains('ready')){
+                clearTimeout(fallbackTimer);
+                try { mo.disconnect(); } catch(e){}
+              }
+            });
+            mo.observe(iframe, { attributes: true, attributeFilter: ['class'] });
           });
         }
         document.addEventListener('DOMContentLoaded', initMediaStage);
+      })();
+
+      // Enable debug outlines when ?debug=1 is present
+      (function(){
+        try{
+          var url = new URL(window.location.href);
+          if(url.searchParams.get('debug') === '1') document.documentElement.classList.add('media-debug');
+        } catch(e){}
       })();
     </script>
   </body>
