@@ -95,6 +95,51 @@ body {
   z-index: 2;
 }
 
+/* Media-stage: reserve a 16:9 box and make children (img/iframe) fill it identically */
+.media-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: var(--mockup-max);
+}
+.media-stage::before {
+  content: '';
+  display: block;
+  padding-top: 56.25%; /* 16:9 */
+}
+.media-stage .mockup,
+.media-stage iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+}
+.media-stage .mockup.hidden { opacity: 0; pointer-events: none; transition: opacity 360ms ease; }
+.media-stage iframe { opacity: 0; transition: opacity 360ms ease; }
+.media-stage iframe.ready { opacity: 1; }
+
+/* Play overlay - centered circular button */
+.play-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><polygon points="18,12 54,32 18,52" fill="%23fff"/></svg>') center/40% no-repeat;
+  border: none;
+  cursor: pointer;
+  z-index: 4;
+}
+.play-overlay:focus { outline: 3px solid rgba(156,39,176,0.22); }
+
+@media (max-width: 600px) {
+  .play-overlay { width: 60px; height: 60px; background-size: 28% !important; }
+}
+
 /* Coluna direita (texto) */
 .hero-right {
   flex: 1;
