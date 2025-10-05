@@ -167,15 +167,18 @@ body {
   .media-stage { min-height: 180px; }
 }
 
-/* Mobile fallback: if the inline <img> is not visible on some devices, show the mockup as a background
-   This ensures the hero still communicates visually on constrained phones. */
-@media (max-width: 480px) {
-  .media-stage {
-    background-image: url('box1.webp');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain; /* show full image inside the reserved box */
+/* Letterbox approach on small screens: keep the 16:9 reserved box but show the full image inside it */
+@media (max-width: 600px) {
+  .media-stage picture,
+  .media-stage img {
+    position: absolute !important;
+    left: 0; top: 0; right: 0; bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;  /* letterbox to show whole image */
+    object-position: center center !important;
   }
+  .media-stage { background: #000; }
 }
 
 /* Coluna direita (texto) */
