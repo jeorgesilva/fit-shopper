@@ -196,6 +196,25 @@ body {
   .play-affordance { width: 60px; height: 60px; background-size: 28% !important; }
 }
 
+/* Mobile: show the full image rather than forcing a 16:9 cropped box
+   This makes the image flow naturally and avoids clipping on narrow viewports. */
+@media (max-width: 420px) {
+  .media-stage {
+    position: relative;
+    height: auto !important;
+    padding-top: 0 !important;
+    overflow: visible !important;
+  }
+  .media-stage picture,
+  .media-stage img {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  .media-stage .mockup { box-shadow: none; }
+}
+
 /* Coluna direita (texto) */
 .hero-right {
   flex: 1;
