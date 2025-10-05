@@ -30,7 +30,114 @@
         </picture>
         <button class="play-overlay" aria-label="Play video" title="Play video"></button>
       </div>
-    </html>
+    </div>
+    
+    <!-- Coluna Direita: Texto e CTA -->
+    <div class="hero-right">
+          <div class="logo-wrap">
+            <img src="assets/logo-doodle.webp" alt="InstaDoodle Logo" data-fallback="logo.png" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+          </div>
+          <h1 data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">VIDEOS IN 3 CLICKS</h1>
+          <p data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">AI Text To Video .<br>No More Expensive Freelancers.</p>
+          <button type="button" class="cta-btn pulse" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+            GET InstaDoodle NOW!
+          </button>
+    </div>
+    
+  </div>
+</section>
+  </main>
+
+    <script>
+        function trackerAndRedirect(e){
+          if(e && e.preventDefault) e.preventDefault();
+          // Prefer data-href for programmatic redirects (safer); fall back to href
+          var el = e && e.currentTarget ? e.currentTarget : this;
+          var url = (el && el.getAttribute && (el.getAttribute('data-href') || el.getAttribute('href'))) || '#';
+
+          // Try to send a beacon to a lightweight affiliate endpoint if available
+          try {
+            var beaconUrl = 'https://www.googletagmanager.com/collect?v=1&tid=AW-11423608709&cid=client_id&t=event&ec=affiliate&ea=click_afiliado';
+            if (navigator.sendBeacon) {
+              try { navigator.sendBeacon(beaconUrl); } catch(beaconErr) { /* ignore */ }
+            }
+          } catch(err) { /* ignore */ }
+
+          // Use gtag with event_callback to reliably redirect after analytics fires
+          var redirected = false;
+          var doRedirect = function(){ if(!redirected){ redirected = true; window.location = url; } };
+
+          try {
+            gtag('event', 'click_afiliado', {
+              'send_to': 'AW-11423608709',
+              'event_callback': doRedirect
+            });
+          } catch(err) {
+            // If gtag fails, still redirect after a short delay
+            setTimeout(doRedirect, 300);
+          }
+
+          // Safety fallback: ensure we always redirect after 1200ms
+          setTimeout(doRedirect, 1200);
+
+          return false;
+        }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        // Bind trackerAndRedirect to any element with data-href (clickable/logo/text/mockup)
+        var clickables = document.querySelectorAll('[data-href]');
+        clickables.forEach(function(el){
+          // mouse click
+          el.addEventListener('click', trackerAndRedirect);
+          // keyboard activation for non-button elements (Enter / Space)
+          el.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              trackerAndRedirect.call(el, e);
+            }
+          });
+          // make non-interactive elements focusable for keyboard users
+          if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+          // ensure pointer cursor
+          el.style.cursor = 'pointer';
+        });
+      });
+      
+      // Centralized image fallback handling: use data-fallback instead of inline onerror
+      (function(){
+        function applyFallback(img){
+          var fb = img.getAttribute('data-fallback');
+          if(!fb) return;
+          img.addEventListener('error', function handler(){
+            img.removeEventListener('error', handler);
+            img.src = fb;
+          });
+        }
+        document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
+      })();
+
+      // Video swap: click play -> fade out mockup, insert autoplay muted Vimeo iframe
+      (function(){
+        function initMediaStage(){
+          var stage = document.querySelector('.media-stage');
+          if(!stage) return;
+          var img = stage.querySelector('.mockup');
+          var play = stage.querySelector('.play-overlay');
+          var vimeoSrc = 'https://player.vimeo.com/video/965207353?autoplay=1&muted=1&playsinline=1';
+
+          play.addEventListener('click', function(ev){
+            ev.stopPropagation();
+            ev.preventDefault();
+            // avoid triggering affiliate redirect if image had data-href
+            // remove data-href from the image specifically (closest ancestor may not exist)
+            try { img.removeAttribute('data-href'); } catch(e){}
+
+            // remove the play overlay so it doesn't remain on top of the iframe
+            try { play.parentNode && play.parentNode.removeChild(play); } catch(e){}
+
+            // fade out image (keep it in DOM as visual fallback until iframe is ready)
+            img.classList.add('hidden');
+            img.setAttribute('aria-hidden', 'true');
 
             // create iframe (force eager loading on mobile so autoplay can start)
             var iframe = document.createElement('iframe');
