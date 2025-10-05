@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>InstaDoodle — Video Demo</title>
+  <link rel="stylesheet" href="../style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11423608709"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'AW-11423608709');
+  </script>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+    
+    <!-- Coluna Esquerda: Demo Video (embedded iframe) -->
+    <div class="hero-left">
+      <div class="shape-bg"></div>
+      <div class="media-stage">
+        <iframe
+          src="https://player.vimeo.com/video/965207353?autoplay=1&muted=1&playsinline=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+          loading="eager"
+          title="InstaDoodle Demo Video"
+          class="ready"
+          style="width:100%;height:100%;border:0;"
+        ></iframe>
+      </div>
+    </div>
+    
+    <!-- Coluna Direita: Texto e CTA -->
+    <div class="hero-right">
+          <div class="logo-wrap">
+            <img src="../assets/logo-doodle.webp" alt="InstaDoodle Logo" data-fallback="../logo.png" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+          </div>
+          <h1 data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">VIDEOS IN 3 CLICKS</h1>
+          <p data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">AI Text To Video .<br>No More Expensive Freelancers.</p>
+          <button type="button" class="cta-btn pulse" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+            GET InstaDoodle NOW!
+          </button>
+    </div>
+    
+  </div>
+</section>
+  </main>
+
+    <script>
+        // Reuse the same tracker and helpers from the main page — lightweight copy so this page works standalone
+        function trackerAndRedirect(e){
+          if(e && e.preventDefault) e.preventDefault();
+          var el = e && e.currentTarget ? e.currentTarget : this;
+          var url = (el && el.getAttribute && (el.getAttribute('data-href') || el.getAttribute('href'))) || '#';
+
+          try {
+            var beaconUrl = 'https://www.googletagmanager.com/collect?v=1&tid=AW-11423608709&cid=client_id&t=event&ec=affiliate&ea=click_afiliado';
+            if (navigator.sendBeacon) { try { navigator.sendBeacon(beaconUrl); } catch(_){} }
+          } catch(_) {}
+
+          var redirected = false;
+          var doRedirect = function(){ if(!redirected){ redirected = true; window.location = url; } };
+
+          try {
+            gtag('event', 'click_afiliado', {
+              'send_to': 'AW-11423608709',
+              'event_callback': doRedirect
+            });
+          } catch(err) { setTimeout(doRedirect, 300); }
+
+          setTimeout(doRedirect, 1200);
+          return false;
+        }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        var clickables = document.querySelectorAll('[data-href]');
+        clickables.forEach(function(el){
+          el.addEventListener('click', trackerAndRedirect);
+          el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trackerAndRedirect.call(el, e); } });
+          if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+          el.style.cursor = 'pointer';
+        });
+      });
+
+      (function(){
+        function applyFallback(img){ var fb = img.getAttribute('data-fallback'); if(!fb) return; img.addEventListener('error', function handler(){ img.removeEventListener('error', handler); img.src = fb; }); }
+        document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
+      })();
+    </script>
+  </body>
+</html>
