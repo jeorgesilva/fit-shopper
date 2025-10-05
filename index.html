@@ -25,10 +25,13 @@
       <div class="media-stage">
         <picture>
           <source srcset="box1.webp" type="image/webp">
-          <!-- fallback for browsers that don't support WebP; placeholder ensures visibility if local asset missing -->
+          <!-- fallback for browsers that don't support WebP -->
           <img src="box1.webp" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=InstaDoodle" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
         </picture>
-        <button class="play-overlay" aria-label="Play video" title="Play video"></button>
+        <!-- Play affordance: opens /videodemo/ in a new tab (no iframe injection on the landing) -->
+        <a class="play-affordance" href="/videodemo/" target="_blank" rel="noopener" aria-label="Open demo video in a new tab" title="Open demo video">
+          <span class="sr-only">Open demo video</span>
+        </a>
       </div>
     </div>
     
@@ -116,92 +119,8 @@
         document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
       })();
 
-      // Video swap: click play -> fade out mockup, insert autoplay muted Vimeo iframe
-      (function(){
-        function initMediaStage(){
-          var stage = document.querySelector('.media-stage');
-          if(!stage) return;
-          var img = stage.querySelector('.mockup');
-          var play = stage.querySelector('.play-overlay');
-          var vimeoSrc = 'https://player.vimeo.com/video/965207353?autoplay=1&muted=1&playsinline=1';
-
-          play.addEventListener('click', function(ev){
-            ev.stopPropagation();
-            ev.preventDefault();
-            // avoid triggering affiliate redirect if image had data-href
-            // remove data-href from the image specifically (closest ancestor may not exist)
-            try { img.removeAttribute('data-href'); } catch(e){}
-
-            // remove the play overlay so it doesn't remain on top of the iframe
-            try { play.parentNode && play.parentNode.removeChild(play); } catch(e){}
-
-            // fade out image (keep it in DOM as visual fallback until iframe is ready)
-            img.classList.add('hidden');
-            img.setAttribute('aria-hidden', 'true');
-
-            // create iframe (force eager loading on mobile so autoplay can start)
-            var iframe = document.createElement('iframe');
-            iframe.setAttribute('src', vimeoSrc);
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
-            iframe.setAttribute('allowfullscreen', '');
-            // iOS playsinline hint
-            iframe.setAttribute('playsinline', '');
-            // don't lazy-load on mobile interaction: use eager
-            iframe.setAttribute('loading', 'eager');
-            // sizing is controlled by CSS (.media-stage) so we don't set inline width/height here
-
-            // append and wait a tick to trigger transition
-            // Compute a pixel height fallback so mobile browsers can render the iframe
-            try {
-              var containerWidth = stage.clientWidth || stage.getBoundingClientRect().width || window.innerWidth;
-              var computedHeight = Math.round(containerWidth * 9 / 16);
-              iframe.style.height = computedHeight + 'px';
-              iframe.style.width = '100%';
-              // keep iframe responsive: update on resize
-              var resizeHandler = function(){
-                try{
-                  var w = stage.clientWidth || stage.getBoundingClientRect().width || window.innerWidth;
-                  iframe.style.height = Math.round(w * 9 / 16) + 'px';
-                } catch(e){}
-              };
-              window.addEventListener('resize', resizeHandler);
-            } catch(e){}
-            stage.appendChild(iframe);
-            console.debug('media: iframe appended');
-            requestAnimationFrame(function(){
-              iframe.classList.add('ready');
-              console.debug('media: iframe class ready added');
-            });
-
-            // Fallback: create a visible link (user-initiated) that opens the Vimeo player in a new tab
-            var fallbackLink = document.createElement('a');
-            fallbackLink.setAttribute('href', vimeoSrc);
-            fallbackLink.setAttribute('target', '_blank');
-            fallbackLink.setAttribute('rel', 'noopener');
-            fallbackLink.className = 'media-fallback-link';
-            fallbackLink.textContent = 'Open video in new tab';
-            fallbackLink.style.display = 'none';
-            stage.appendChild(fallbackLink);
-
-            var fallbackTimer = setTimeout(function(){
-              if(iframe.classList.contains('ready')) return;
-              console.debug('media: showing fallback link for user to open video');
-              try { fallbackLink.style.display = 'flex'; } catch(e){}
-            }, 700);
-
-            // when iframe becomes ready, cancel fallback and hide link
-            var mo = new MutationObserver(function(){
-              if(iframe.classList.contains('ready')){
-                clearTimeout(fallbackTimer);
-                try { fallbackLink.style.display = 'none'; mo.disconnect(); } catch(e){}
-              }
-            });
-            mo.observe(iframe, { attributes: true, attributeFilter: ['class'] });
-          });
-        }
-        document.addEventListener('DOMContentLoaded', initMediaStage);
-      })();
+      /* Video injection removed: page intentionally shows only the static image on load.
+         The image still keeps its data-href so clicks trigger the affiliate tracker/redirect. */
 
       // Enable debug outlines when ?debug=1 is present
       (function(){
@@ -211,19 +130,7 @@
         } catch(e){}
       })();
 
-      // Force injection for testing when ?force=1 is present
-      (function(){
-        try{
-          var url2 = new URL(window.location.href);
-          if(url2.searchParams.get('force') === '1'){
-            // wait a tick so initMediaStage has attached handlers, then trigger the play overlay
-            setTimeout(function(){
-              var play = document.querySelector('.media-stage .play-overlay');
-              if(play) try { play.click(); } catch(e) { console.debug('media: force play click failed', e); }
-            }, 260);
-          }
-        } catch(e){}
-      })();
+      /* Force-injection test removed (no play overlay present) */
     </script>
   </body>
 </html>
