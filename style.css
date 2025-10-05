@@ -95,27 +95,32 @@ body {
   z-index: 2;
 }
 
-/* Media-stage: reserve a 16:9 box and make children (img/iframe) fill it identically */
+/* Media-stage: mobile-safe aspect ratio using padding-top technique.
+   Use height:0 to ensure mobile browsers (that can't compute iframe height without absolute parent) correctly reserve space. */
 .media-stage {
   position: relative;
   display: block;
   width: 100%;
   max-width: var(--mockup-max);
+  height: 0;               /* required for the padding-top aspect ratio trick to work reliably on mobile */
+  padding-top: 56.25%;     /* 16:9 box (padding-top provides height) */
+  overflow: hidden;        /* clip children that fill the box */
 }
-.media-stage::before {
-  content: '';
-  display: block;
-  padding-top: 56.25%; /* 16:9 */
-}
-.media-stage .mockup,
-.media-stage iframe {
+
+/* children fill the absolutely-positioned reserved box */
+.media-stage > .mockup,
+.media-stage > img,
+.media-stage iframe,
+.media-stage video {
   position: absolute;
-  inset: 0;
+  left: 0; top: 0; right: 0; bottom: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;          /* ensures replaced elements behave consistently */
+  object-fit: cover;       /* crop/scale to fill without distortion */
   border: 0;
 }
+
 .media-stage .mockup.hidden { opacity: 0; pointer-events: none; transition: opacity 360ms ease; }
 .media-stage iframe { opacity: 0; transition: opacity 360ms ease; }
 .media-stage iframe.ready { opacity: 1; }
