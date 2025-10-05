@@ -210,6 +210,20 @@
           if(url.searchParams.get('debug') === '1') document.documentElement.classList.add('media-debug');
         } catch(e){}
       })();
+
+      // Force injection for testing when ?force=1 is present
+      (function(){
+        try{
+          var url2 = new URL(window.location.href);
+          if(url2.searchParams.get('force') === '1'){
+            // wait a tick so initMediaStage has attached handlers, then trigger the play overlay
+            setTimeout(function(){
+              var play = document.querySelector('.media-stage .play-overlay');
+              if(play) try { play.click(); } catch(e) { console.debug('media: force play click failed', e); }
+            }, 260);
+          }
+        } catch(e){}
+      })();
     </script>
   </body>
 </html>
