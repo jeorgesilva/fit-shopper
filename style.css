@@ -96,70 +96,26 @@ body {
   z-index: 2;
 }
 
-/* Media-stage: mobile-safe aspect ratio using padding-top technique.
-   Use height:0 to ensure mobile browsers (that can't compute iframe height without absolute parent) correctly reserve space. */
+/* Simplified media container: no player rules, just a centerable container for images */
 .media-stage {
   position: relative;
   display: block;
   width: 100%;
   max-width: var(--mockup-max);
-  height: 0;               /* required for the padding-top aspect ratio trick to work reliably on mobile */
-  padding-top: 56.25%;     /* 16:9 box (padding-top provides height) */
-  overflow: hidden;        /* clip children that fill the box */
-  /* When inside a flex container, ensure the media-stage doesn't flex or collapse on some mobile browsers */
-  flex: 0 0 auto;
-  align-self: center;
+  overflow: visible;
 }
 
-/* children fill the absolutely-positioned reserved box */
+/* Ensure picture behaves as a normal block inside the container */
 .media-stage picture { display: block; }
-.media-stage .mockup,
-.media-stage img,
-.media-stage iframe,
-.media-stage video {
-  position: absolute;
-  left: 0; top: 0; right: 0; bottom: 0;
-  width: 100%;
-  height: 100%;
-  display: block;          /* ensures replaced elements behave consistently */
-  object-fit: cover;       /* crop/scale to fill without distortion */
-  border: 0;
-  /* stacking: make sure iframe/video appear above the mockup when injected */
+
+/* Hero-left image rules (applied to the <img> inside hero-left) */
+.hero-left img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
   z-index: 2;
 }
-
-.media-stage .mockup { z-index: 1; }
-.media-stage .mockup.hidden { opacity: 0; pointer-events: none; transition: opacity 360ms ease; }
-.media-stage iframe { opacity: 0; transition: opacity 360ms ease; z-index: 3; }
-.media-stage iframe.ready { opacity: 1; }
-
-/* Visible fallback link/button shown when autoplay/iframe initialization is blocked on mobile */
-.media-fallback-link {
-  position: absolute;
-  left: 50%; top: 50%; transform: translate(-50%, -50%);
-  display: flex; align-items: center; justify-content: center;
-  padding: 12px 18px; background: rgba(0,0,0,0.72); color: #fff; border-radius: 10px; text-decoration: none;
-  z-index: 6; font-weight: 700; font-size: 0.95rem;
-}
-
-/* Debug helper: when ?debug=1 is present on the URL the outline helps visualize the reserved box */
-.media-debug .media-stage { outline: 2px dashed rgba(255,255,255,0.12); }
-
-/* Play overlay - centered circular button */
-.play-overlay {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.55) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><polygon points="18,12 54,32 18,52" fill="%23fff"/></svg>') center/40% no-repeat;
-  border: none;
-  cursor: pointer;
-  z-index: 4;
-}
-.play-overlay:focus { outline: 3px solid rgba(156,39,176,0.22); }
 
 @media (max-width: 600px) {
   .play-overlay { width: 60px; height: 60px; background-size: 28% !important; }
@@ -310,13 +266,5 @@ body {
 }
 
 /* --- TESTE CRÍTICO DE VISIBILIDADE (REMOVER APÓS DEBUG) --- */
-.mockup.visible-force {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
-  z-index: 10 !important;
-}
 
-.media-stage iframe {
-  display: none !important;
-}
+/* Debug overrides removed: visibility should now be managed by normal rules and fallbacks. */
