@@ -54,6 +54,31 @@
           // Prefer data-href for programmatic redirects (safer); fall back to href
           var el = e && e.currentTarget ? e.currentTarget : this;
           var url = (el && el.getAttribute && (el.getAttribute('data-href') || el.getAttribute('href'))) || '#';
+          // If the current page URL contains Google Ads sub_id (or subid), attach it to the affiliate URL
+          try {
+            var pageUrl = new URL(window.location.href);
+            // try both common param names used by Ads: sub_id and subid
+            var subVal = pageUrl.searchParams.get('sub_id') || pageUrl.searchParams.get('subid') || null;
+            // also check for a fallback in the hash fragment like #sub_id=...
+            if(!subVal && window.location.hash) {
+              try {
+                var h = window.location.hash.replace(/^#/, '');
+                var hp = new URLSearchParams(h);
+                subVal = hp.get('sub_id') || hp.get('subid') || subVal;
+              } catch(err) { /* ignore malformed hash */ }
+            }
+            if(subVal && url && url.indexOf('#') === -1){
+              // append as sub_id by convention (ClickBank supports custom query params)
+              url += (url.indexOf('?') === -1 ? '?' : '&') + 'sub_id=' + encodeURIComponent(subVal);
+            } else if(subVal && url && url.indexOf('#') !== -1){
+              // preserve fragment if present: insert before the fragment
+              var parts = url.split('#');
+              parts[0] += (parts[0].indexOf('?') === -1 ? '?' : '&') + 'sub_id=' + encodeURIComponent(subVal);
+              url = parts.join('#');
+            }
+          } catch(err) {
+            // ignore URL parse errors and proceed with original url
+          }
 
           // Try to send a beacon to a lightweight affiliate endpoint if available
           try {
