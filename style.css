@@ -78,14 +78,23 @@ body {
   width: 100%;
   max-width: 480px;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-  transition: transform 300ms ease, box-shadow 300ms ease;
+  /* No rounded corners or shadow: present the mockup image without contour effects */
+  border-radius: 0;
+  box-shadow: none;
+  /* Keep layout stable — no hover transform */
+  transition: none;
 }
 
+/* Disable hover lift and any shadow on hover */
 .mockup:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Remove focus outline when the image is programmatically focusable */
+.mockup:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .box {
