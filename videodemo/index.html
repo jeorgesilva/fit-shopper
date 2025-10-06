@@ -22,12 +22,15 @@
     <!-- Coluna Esquerda: Demo Video (embedded iframe) -->
     <div class="hero-left">
       <div class="shape-bg"></div>
-      <div class="media-stage">
-        <picture>
-          <source srcset="../box1.webp" type="image/webp">
-          <!-- Keep demo using the WebP asset; fallback to data-fallback on error -->
-          <img src="../box1.webp" alt="Box InstaDoodle (demo)" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=BOX1+TEST" />
-        </picture>
+      <div class="media-stage video-responsive">
+        <iframe loading="lazy"
+                src="https://player.vimeo.com/video/965207353?autoplay=0&muted=0"
+                frameborder="0"
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen
+                allow="autoplay; fullscreen; picture-in-picture">
+        </iframe>
       </div>
     </div>
     

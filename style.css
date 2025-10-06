@@ -114,6 +114,23 @@ body {
   overflow: visible;
 }
 
+/* Responsive 16:9 container for embedded players (Vimeo) */
+.media-stage.video-responsive {
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.media-stage.video-responsive iframe,
+.media-stage.video-responsive video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* Ensure picture behaves as a normal block inside the container */
 .media-stage picture { display: block; }
 
