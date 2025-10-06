@@ -131,6 +131,30 @@ body {
   border: 0;
 }
 
+/* Desktop: center the video and limit its width to the mockup max so it matches the image dimensions */
+.media-stage.video-responsive {
+  width: 100%;
+  max-width: var(--mockup-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile (<=900px): make the video edge-to-edge (full-bleed) across the viewport */
+@media (max-width: 900px) {
+  .media-stage.video-responsive {
+    /* make the element span the full viewport width regardless of parent padding */
+    width: 100vw;
+    max-width: none;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-top: 56.25%; /* keep 16:9 aspect */
+    box-shadow: none; /* ensure no shadow on mobile */
+    border-radius: 0;
+  }
+}
+
 /* Ensure picture behaves as a normal block inside the container */
 .media-stage picture { display: block; }
 
