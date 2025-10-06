@@ -25,10 +25,11 @@
       <div class="media-stage">
         <picture>
           <source srcset="box1.webp" type="image/webp">
-          <!-- fallback for browsers that don't support WebP -->
-          <img src="box1.webp" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=InstaDoodle" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
+          <!-- JPEG fallback for legacy browsers -->
+          <source srcset="box1.jpg" type="image/jpeg">
+          <!-- img src points to JPEG fallback; if box1.jpg is missing the existing data-fallback will apply -->
+          <img src="box1.jpg" alt="Box InstaDoodle" class="mockup" data-fallback="https://via.placeholder.com/600x400?text=BOX1+TEST" data-href="https://d3f7c-hd7hwkyge5po07nfv0yf.hop.clickbank.net">
         </picture>
-        
       </div>
     </div>
     
@@ -49,7 +50,9 @@
   </main>
 
     <script>
-        function trackerAndRedirect(e){
+  function isDebug(){ try{ return new URL(window.location.href).searchParams.get('debug') === '1'; }catch(e){return false;} }
+
+  function trackerAndRedirect(e){
           if(e && e.preventDefault) e.preventDefault();
           // Prefer data-href for programmatic redirects (safer); fall back to href
           var el = e && e.currentTarget ? e.currentTarget : this;
@@ -88,11 +91,13 @@
 
           try {
             // Send conversion event to Ads with conversion label; keep the callback for redirect
+            if(isDebug()) console.log('[debug] gtag event firing for click_afiliado, target:', url);
             gtag('event', 'click_afiliado', {
               'send_to': 'AW-11423608709/click_instadoodle',
-              'event_callback': doRedirect
+              'event_callback': function(){ if(isDebug()) console.log('[debug] gtag event_callback — redirecting to', url); doRedirect(); }
             });
           } catch(err) {
+            if(isDebug()) console.warn('[debug] gtag error, falling back to timeout redirect', err);
             // If gtag fails, still redirect after a short delay
             setTimeout(doRedirect, 300);
           }
