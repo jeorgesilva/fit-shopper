@@ -68,33 +68,28 @@
               } catch(err) { /* ignore malformed hash */ }
             }
             if(subVal && url && url.indexOf('#') === -1){
-              // append as sub_id by convention (ClickBank supports custom query params)
-              url += (url.indexOf('?') === -1 ? '?' : '&') + 'sub_id=' + encodeURIComponent(subVal);
+              // append as tid (tracking id) to pass Google Ads sub_id to ClickBank
+              url += (url.indexOf('?') === -1 ? '?' : '&') + 'tid=' + encodeURIComponent(subVal);
             } else if(subVal && url && url.indexOf('#') !== -1){
               // preserve fragment if present: insert before the fragment
               var parts = url.split('#');
-              parts[0] += (parts[0].indexOf('?') === -1 ? '?' : '&') + 'sub_id=' + encodeURIComponent(subVal);
+              parts[0] += (parts[0].indexOf('?') === -1 ? '?' : '&') + 'tid=' + encodeURIComponent(subVal);
               url = parts.join('#');
             }
           } catch(err) {
             // ignore URL parse errors and proceed with original url
           }
 
-          // Try to send a beacon to a lightweight affiliate endpoint if available
-          try {
-            var beaconUrl = 'https://www.googletagmanager.com/collect?v=1&tid=AW-11423608709&cid=client_id&t=event&ec=affiliate&ea=click_afiliado';
-            if (navigator.sendBeacon) {
-              try { navigator.sendBeacon(beaconUrl); } catch(beaconErr) { /* ignore */ }
-            }
-          } catch(err) { /* ignore */ }
+          // (Beacon code removed) rely on gtag event with event_callback for redirection
 
           // Use gtag with event_callback to reliably redirect after analytics fires
           var redirected = false;
           var doRedirect = function(){ if(!redirected){ redirected = true; window.location = url; } };
 
           try {
+            // Send conversion event to Ads with conversion label; keep the callback for redirect
             gtag('event', 'click_afiliado', {
-              'send_to': 'AW-11423608709',
+              'send_to': 'AW-11423608709/click_instadoodle',
               'event_callback': doRedirect
             });
           } catch(err) {
