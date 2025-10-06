@@ -308,3 +308,15 @@ body {
     padding-top: 30px;
   }
 }
+
+/* --- TESTE CRÍTICO DE VISIBILIDADE (REMOVER APÓS DEBUG) --- */
+.mockup.visible-force {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  z-index: 10 !important;
+}
+
+.media-stage iframe {
+  display: none !important;
+}
