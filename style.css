@@ -284,3 +284,44 @@ body {
   50% { transform: translateY(-12px) rotate(1.5deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
+
+/* =========================
+   Mobile refinements (prevent absolute positioning issues)
+   Applied at max-width: 900px as requested
+========================= */
+@media (max-width: 900px) {
+  /* Simplify the visual background on small screens */
+  .shape-bg { display: none !important; }
+
+  /* Remove floating decorative box to avoid layout overlap */
+  .box { display: none !important; }
+
+  /* Ensure video/iframe fill the reserved box on mobile (no letterbox) */
+  .media-stage iframe,
+  .media-stage video {
+    position: absolute !important;
+    left: 0; top: 0; right: 0; bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    z-index: 3;
+  }
+
+  /* Make CTA strongly visible and easy to tap */
+  .cta-btn {
+    width: 90%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  /* Center and space text column on mobile */
+  .hero-right {
+    text-align: center;
+    padding-top: 30px;
+  }
+}
