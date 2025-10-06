@@ -23,14 +23,14 @@
     <div class="hero-left">
       <div class="shape-bg"></div>
       <div class="media-stage video-responsive">
-        <iframe loading="lazy"
-                src="https://player.vimeo.com/video/965207353?autoplay=0&muted=0"
-                frameborder="0"
-                webkitallowfullscreen
-                mozallowfullscreen
-                allowfullscreen
-                allow="autoplay; fullscreen; picture-in-picture">
-        </iframe>
+        <!-- Poster + play button: iframe will be injected on demand for performance -->
+        <div class="video-poster" role="button" tabindex="0" aria-label="Play demo video" data-video-id="965207353">
+          <picture>
+            <source srcset="../box1.webp" type="image/webp">
+            <img src="../box1.webp" alt="Demo poster" class="mockup" />
+          </picture>
+          <button class="video-play" aria-hidden="true" tabIndex="-1"></button>
+        </div>
       </div>
     </div>
     
@@ -89,6 +89,43 @@
       (function(){
         function applyFallback(img){ var fb = img.getAttribute('data-fallback'); if(!fb) return; img.addEventListener('error', function handler(){ img.removeEventListener('error', handler); img.src = fb; }); }
         document.querySelectorAll('img[data-fallback]').forEach(applyFallback);
+      })();
+
+      /* Lazy-load Vimeo iframe: on click/Enter inject the player into the .media-stage */
+      (function(){
+        function createIframe(id){
+          var iframe = document.createElement('iframe');
+          iframe.setAttribute('loading','lazy');
+          iframe.setAttribute('src','https://player.vimeo.com/video/'+encodeURIComponent(id)+'?autoplay=0&muted=0');
+          iframe.setAttribute('frameborder','0');
+          iframe.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+          iframe.setAttribute('webkitallowfullscreen','');
+          iframe.setAttribute('mozallowfullscreen','');
+          iframe.setAttribute('allowfullscreen','');
+          return iframe;
+        }
+
+        function onPosterActivate(e){
+          if(e && e.type === 'keydown' && !(e.key === 'Enter' || e.key === ' ')) return;
+          e && e.preventDefault && e.preventDefault();
+          var poster = e.currentTarget || this;
+          var id = poster.getAttribute('data-video-id');
+          if(!id) return;
+          var container = poster.parentNode;
+          // remove poster and inject iframe
+          var iframe = createIframe(id);
+          container.innerHTML = '';
+          container.appendChild(iframe);
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          var posters = document.querySelectorAll('.video-poster');
+          posters.forEach(function(p){
+            p.addEventListener('click', onPosterActivate);
+            p.addEventListener('keydown', onPosterActivate);
+            if(!p.hasAttribute('tabindex')) p.setAttribute('tabindex','0');
+          });
+        });
       })();
     </script>
   </body>
